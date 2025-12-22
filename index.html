@@ -1,0 +1,894 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Multi-services pour l’embellissement des habitations : nettoyage en profondeur, joints, petites réparations et finitions." />
+  <title>Multi-services Embellissement | Nettoyage en profondeur & finitions</title>
+  <style>
+    :root{
+      /* Thème clair */
+      --bg:#f5f7fb;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#475569;
+      --accent:#0ea5e9;
+      --accent2:#6366f1;
+      --ok:#10b981;
+      --warn:#f59e0b;
+      --shadow: 0 10px 25px rgba(2,6,23,.08);
+      --radius: 18px;
+      --max: 1100px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(99,102,241,.14), transparent 60%),
+        radial-gradient(1000px 500px at 95% 0%, rgba(14,165,233,.12), transparent 55%),
+        linear-gradient(180deg, #ffffff, var(--bg));
+      line-height:1.5;
+    }
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:var(--max); margin:0 auto; padding:24px}
+    header{
+      position:sticky; top:0; z-index:10;
+      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,.78);
+      border-bottom: 1px solid rgba(2,6,23,.08);
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between; gap:18px;
+      padding:14px 24px;
+      max-width:var(--max); margin:0 auto;
+    }
+    .brand{display:flex; align-items:center; gap:10px; font-weight:700}
+    .logo{
+      width:34px; height:34px; border-radius:10px;
+      background: conic-gradient(from 210deg, var(--accent), var(--accent2), var(--accent));
+      box-shadow: var(--shadow);
+    }
+    .links{display:flex; gap:14px; flex-wrap:wrap; align-items:center; justify-content:flex-end}
+    .links a{padding:10px 12px; border-radius:12px; color:var(--muted)}
+    .links a:hover{background: rgba(2,6,23,.04); color:var(--text)}
+    .cta{
+      padding:10px 14px;
+      border-radius:12px;
+      background: linear-gradient(90deg, rgba(14,165,233,.18), rgba(99,102,241,.18));
+      border: 1px solid rgba(2,6,23,.10);
+      color: var(--text);
+      box-shadow: var(--shadow);
+    }
+    .cta:hover{transform: translateY(-1px)}
+
+    .hero{padding:58px 0 18px}
+    .grid{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap:22px;
+      align-items:stretch;
+    }
+    .card{
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(2,6,23,.08);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .pad{padding:22px}
+    h1{font-size: clamp(28px, 4.2vw, 48px); line-height:1.08; margin:0 0 12px}
+    .lead{color:var(--muted); font-size: clamp(15px, 2vw, 18px); margin:0 0 18px}
+    .pillrow{display:flex; flex-wrap:wrap; gap:10px; margin: 18px 0 0}
+    .pill{
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(2,6,23,.10);
+      background: rgba(255,255,255,.8);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .actions{display:flex; gap:12px; flex-wrap:wrap; margin-top:18px}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:12px 14px;
+      border-radius:14px;
+      border: 1px solid rgba(2,6,23,.10);
+      background: rgba(255,255,255,.85);
+      color: var(--text);
+      font-weight: 600;
+    }
+    .btn.primary{
+      background: linear-gradient(90deg, rgba(125,211,252,.35), rgba(167,139,250,.35));
+    }
+    .btn:hover{transform: translateY(-1px)}
+
+    .statgrid{display:grid; grid-template-columns: repeat(2, 1fr); gap:12px}
+    .stat{padding:14px; border-radius:16px; background: rgba(2,6,23,.03); border:1px solid rgba(2,6,23,.08)}
+    .stat b{display:block; font-size:18px}
+    .stat span{color:var(--muted); font-size:13px}
+
+    section{padding:18px 0}
+    h2{margin:0 0 12px; font-size: clamp(20px, 2.8vw, 28px)}
+    .sub{margin:0 0 18px; color:var(--muted)}
+
+    .svcgrid{display:grid; grid-template-columns: repeat(3, 1fr); gap:14px}
+    .svc{padding:18px; border-radius:16px; background: rgba(2,6,23,.03); border:1px solid rgba(2,6,23,.08)}
+    .svc h3{margin:0 0 8px; font-size:16px}
+    .svc p{margin:0; color:var(--muted); font-size:14px}
+
+    .twocol{display:grid; grid-template-columns: 1fr 1fr; gap:14px}
+    .list{margin:0; padding-left:18px; color:var(--muted)}
+    .list li{margin:8px 0}
+
+    .steps{display:grid; grid-template-columns: repeat(4, 1fr); gap:12px}
+    .step{padding:16px; border-radius:16px; background: rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.10)}
+    .step .n{display:inline-flex; width:28px; height:28px; align-items:center; justify-content:center; border-radius:10px; background: rgba(125,211,252,.18); border:1px solid rgba(125,211,252,.35); margin-bottom:10px; font-weight:700}
+    .step b{display:block; margin-bottom:6px}
+    .step span{color:var(--muted); font-size:13px}
+
+    .pricegrid{display:grid; grid-template-columns: repeat(3, 1fr); gap:14px}
+    .price{padding:18px; border-radius:16px; background: rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.10)}
+    .tag{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; font-size:12px; color:var(--muted); border:1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.04)}
+    .tag.ok{border-color: rgba(52,211,153,.35); background: rgba(52,211,153,.12)}
+    .tag.warn{border-color: rgba(251,191,36,.35); background: rgba(251,191,36,.12)}
+    .price h3{margin:10px 0 6px}
+    .price .amount{font-size:22px; font-weight:800}
+    .price .note{color:var(--muted); font-size:13px; margin:6px 0 0}
+    .price ul{margin:12px 0 0; padding-left:18px; color:var(--muted)}
+    .price li{margin:8px 0; font-size:14px}
+
+    form{display:grid; gap:10px}
+    input, textarea{
+      width:100%;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid rgba(2,6,23,.10);
+      background: rgba(255,255,255,.95);
+      color: var(--text);
+      outline:none;
+    }
+    textarea{min-height:120px; resize:vertical}
+    .hint{color:var(--muted); font-size:12px}
+    footer{padding:26px 0 40px; color:var(--muted)}
+    .footergrid{display:flex; gap:12px; flex-wrap:wrap; align-items:center; justify-content:space-between}
+
+    .checkrow{display:flex; align-items:center; justify-content:flex-start; gap:12px; width:100%}
+    .checkrow input[type="checkbox"]{width:18px; height:18px; margin:0; flex:0 0 auto}
+    .checkrow label{flex:1; display:block; text-align:left; margin:0; line-height:1.25}
+    .checkrow + select{margin-left:30px; max-width: calc(100% - 30px)}
+    .checkrow label{color:var(--text); line-height:1.25}
+    select{
+      width:100%;
+      padding:10px 10px;
+      border-radius:12px;
+      border:1px solid rgba(2,6,23,.10);
+      background: rgba(255,255,255,.95);
+      color: var(--text);
+      outline:none;
+    }
+    select:disabled{opacity:.55}
+
+    @media (max-width: 980px){
+      .grid{grid-template-columns: 1fr}
+      .svcgrid{grid-template-columns: 1fr}
+      .twocol{grid-template-columns: 1fr}
+      .steps{grid-template-columns: 1fr 1fr}
+      .pricegrid{grid-template-columns: 1fr}
+      .links{display:none}
+    }
+  
+    /* --- Ma méthode : onglets (évite le grand vide) --- */
+    .method-tabs{display:flex; gap:10px; flex-wrap:wrap; margin: 12px 0 0}
+    .method-tab{
+      border:1px solid rgba(2,6,23,.10);
+      background: rgba(255,255,255,.85);
+      padding:10px 12px;
+      border-radius:999px;
+      cursor:pointer;
+      font-weight:800;
+      color: var(--text);
+    }
+    .method-tab[aria-selected="true"]{
+      background: linear-gradient(90deg, rgba(14,165,233,.18), rgba(99,102,241,.18));
+    }
+    .method-pane{display:none; margin-top:14px}
+    .method-pane.active{display:block}
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav">
+      <a class="brand" href="#top" aria-label="Accueil">
+        <span class="logo" aria-hidden="true"></span>
+        <span>Multi-services Embellissement</span>
+      </a>
+      <nav class="links" aria-label="Navigation">
+        <a href="#services">Services</a>
+        <a href="#methode">Méthode</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a class="cta" href="#methode">Demander un devis</a>
+    </div>
+  </header>
+
+  <main id="top" class="wrap">
+    <section class="hero">
+      <div class="grid">
+        <div class="card pad">
+          <h1>Embellir ton habitation, <br/>sans gros travaux.</h1>
+          <p class="lead">
+            J’interviens pour un <b>nettoyage en profondeur</b> et des <b>petites finitions</b> qui changent tout :
+            interrupteurs, joints noircis, plinthes décollées, fonds de placards, encadrements de portes…
+            Résultat : un intérieur plus propre, plus net, plus agréable.
+          </p>
+          <div class="actions">
+            <a class="btn primary" href="#methode">Obtenir un devis rapide</a>
+            <a class="btn" href="#services">Voir les prestations</a>
+          </div>
+          <div class="pillrow" aria-label="Points forts">
+            <span class="pill">✅ Interventions ponctuelles</span>
+            <span class="pill">🧽 Détails & finitions</span>
+            <span class="pill">🛠️ Petites réparations</span>
+            <span class="pill">🏡 Habitations individuelles</span>
+          </div>
+        </div>
+
+        <div class="card pad" aria-label="Infos clés">
+          <h2 style="margin-top:0">Ce que tu gagnes</h2>
+          <p class="sub">Des améliorations visibles, ciblées, et un vrai « coup de propre » dans un environnement redevenu 100% fonctionnel.</p>
+          <div class="statgrid">
+            <div class="stat"><b>Plus net</b><span>Joints, interrupteurs, plinthes…</span></div>
+            <div class="stat"><b>Plus sain</b><span>Nettoyage en zones oubliées</span></div>
+            <div class="stat"><b>Plus joli</b><span>Petites retouches & peintures</span></div>
+            <div class="stat"><b>Plus simple</b><span>Un seul interlocuteur, tout le matériel inclus</span></div>
+            <div class="stat"><b>Moins de gaspillage</b><span>Pas d’achat inutile de produits ou consommables</span></div>
+            <div class="stat"><b>Plus responsable</b><span>Démarche anti-gaspillage, respect de la planète</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="services">
+      <div class="card pad">
+        <h2>Prestations d’embellissement</h2>
+        <p class="sub">Une sélection de <b>prestations</b> exécutés par une seule et même <b>équipe</b> qui font une <b>grande différence.</b></p>
+
+        <div class="svcgrid">
+          <div class="svc">
+            <h3>Cuisine – Nettoyage en profondeur</h3>
+            <ul class="list">
+              <li>Gazinière / cuisinière (extérieur complet)</li>
+              <li>Four (intérieur et extérieur)</li>
+              <li>Plaques de cuisson</li>
+              <li>Hotte aspirante (extérieur + filtres)</li>
+              <li>Crédence</li>
+              <li>Bouches d’aération</li>
+              <li>Façades des placards (traces de gras)</li>
+              <li>Façades des appareils électroménagers</li>
+            </ul>
+          </div>
+
+          <div class="svc">
+            <h3>Salle de bain & points d’eau</h3>
+            <ul class="list">
+              <li>Reprise ou remplacement de joints noircis</li>
+              <li>Éclaircissement des joints entre carreaux de faïence</li>
+              <li>Nettoyage douche, baignoire, lavabo</li>
+              <li>Traces de calcaire accumulé (robinetteries, parois, surfaces)</li>
+              <li>Nettoyage des mousseurs de robinets (écoulement homogène et économique)</li>
+              <li>Nettoyage des siphons</li>
+              <li>Bouches d’aération</li>
+            </ul>
+          </div>
+
+          <div class="svc">
+            <h3>Pièces de vie & circulations</h3>
+            <ul class="list">
+              <li>Interrupteurs et prises (contours inclus)</li>
+              <li>Poignées de portes</li>
+              <li>Traces murales localisées</li>
+              <li>Poussières accumulées sur les plinthes</li>
+            </ul>
+          </div>
+
+          <div class="svc">
+            <h3>Placards & rangements</h3>
+            <ul class="list">
+              <li>Nettoyage des fonds de placards</li>
+              <li>Étagères et zones peu accessibles</li>
+              <li>Intérieurs de meubles</li>
+            </ul>
+          </div>
+
+          <div class="svc">
+            <h3>Finitions & petites réparations</h3>
+            <ul class="list">
+              <li>Re-collage de plinthes</li>
+              <li>Rebouchage des trous de cadres déplacés ou retirés</li>
+              <li>Rebouchage des trous liés aux poignées de portes</li>
+              <li>Resserage ou remplacement de poignées de portes branlantes</li>
+              <li>Petites fixations</li>
+              <li>Retouches de peinture (encadrements de portes, petites zones)</li>
+            </ul>
+          </div>
+
+          <div class="svc">
+            <h3>Intervention sur mesure</h3>
+            <ul class="list">
+              <li>Traitement de zones spécifiques signalées par le client</li>
+              <li>Priorisation des points visibles ou gênants</li>
+              <li>Adaptation selon l’état du logement</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="twocol" style="margin-top:16px">
+          <div class="svc">
+            <h3>Idéal si…</h3>
+            <ul class="list">
+              <li>Tu veux rafraîchir ta maison avant une vente/visite.</li>
+              <li>Tu remarques des détails qui se dégradent (joints, finitions).</li>
+              <li>Tu manques de temps pour t’occuper des « petits trucs ».</li>
+            </ul>
+          </div>
+          <div class="svc">
+            <h3>Ce que je ne fais pas</h3>
+            <ul class="list">
+              <li>Gros travaux (rénovation complète, plomberie/électricité lourde).</li>
+              <li>Traitement de moisissures structurelles (à diagnostiquer par un pro).</li>
+              <li>Interventions nécessitant des certifications spécifiques.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="methode">
+  <div class="card pad">
+    <h2>Ma méthode</h2>
+    <p class="sub">Deux façons de demander un devis, selon ton besoin : une estimation immédiate en ligne ou un devis définitif sur place.</p>
+
+    <div class="method-tabs" role="tablist" aria-label="Choix de demande de devis">
+      <button class="method-tab" type="button" role="tab" aria-selected="true" aria-controls="pane-estimation" id="tab-estimation">Choix n°1 — Estimation instantanée</button>
+      <button class="method-tab" type="button" role="tab" aria-selected="false" aria-controls="pane-visite" id="tab-visite">Choix n°2 — Devis définitif établi sur place</button>
+    </div>
+
+    <div id="pane-estimation" class="method-pane active" role="tabpanel" aria-labelledby="tab-estimation">
+      <div class="svc">
+        <span class="tag ok">Choix n°1 — Estimation immédiate</span>
+        <h3 style="margin-top:10px">Estimation immédiate en ligne </h3>
+        <p style="margin:0 0 12px; color:var(--muted)">
+          Parcours et sélectionnes les <b>prestations souhaitées</b> en précisant le <b>niveau</b> d’intervention. Tu obtiendras une <b>estimation</b> instantanée en bas de page.
+        </p>
+
+        <form id="estimateForm">
+          <div class="hint"><b>Astuce :</b> tu peux commencer par cocher un pack, puis ajuster le détail.</div>
+
+          <div class="svc" style="padding:14px; margin-top:12px">
+  <div class="checkrow packrow"><input type="checkbox" id="pack_cuisine_nettoyage_en_profondeur" data-pack="cuisine_nettoyage_en_profondeur"/><label for="pack_cuisine_nettoyage_en_profondeur"><b>Pack Cuisine – Nettoyage en profondeur</b></label></div>
+  <div class="hint" style="margin-top:6px">Coche le pack pour sélectionner toutes les prestations de cette catégorie (tu peux ensuite décocher/ajuster le détail).</div>
+  <div style="margin-top:12px">
+    <div class="checkrow"><input type="checkbox" id="cb_gaz_cuisine" data-item="Gaz_Cuisine"/><label for="cb_gaz_cuisine">Gazinière / Cuisinière / Four</label></div>
+    <select data-level="Gaz_Cuisine" style="margin-top:8px" disabled>
+      <option value="l1">qqs traces de gras sur la façade</option>
+      <option value="l2" selected>pas mal de gras accumulé autour de la porte d&#x27;ouverture</option>
+      <option value="l3">accumulation flagrante de gras et nettoyage des charnières</option>
+    </select>
+  </div>
+  <div style="margin-top:12px">
+    <div class="checkrow"><input type="checkbox" id="cb_cuisson_cuisine" data-item="Cuisson_Cuisine"/><label for="cb_cuisson_cuisine">Plaques de cuisson</label></div>
+    <select data-level="Cuisson_Cuisine" style="margin-top:8px" disabled>
+      <option value="l1">qqs traces de gras sous les grilles</option>
+      <option value="l2" selected>pas mal de gras accumulé et traces tenaces</option>
+      <option value="l3">tous les pourtours des plaques sont entachés de traces tenaces</option>
+    </select>
+  </div>
+  <div style="margin-top:12px">
+    <div class="checkrow"><input type="checkbox" id="cb_hotte_cuisine" data-item="Hotte_Cuisine"/><label for="cb_hotte_cuisine">Hotte aspirante (extérieur + filtres)</label></div>
+    <select data-level="Hotte_Cuisine" style="margin-top:8px" disabled>
+      <option value="l1">qqs traces de gras sur la façade</option>
+      <option value="l2" selected>pas mal de gras accumulé autour de la porte d&#x27;ouverture</option>
+      <option value="l3">accumulation flagrante de gras et nettoyage des charnières</option>
+    </select>
+  </div>
+  <div style="margin-top:12px">
+    <div class="checkrow"><input type="checkbox" id="cb_credence_cuisine" data-item="Crédence_Cuisine"/><label for="cb_credence_cuisine">Crédence</label></div>
+    <select data-level="Crédence_Cuisine" style="margin-top:8px" disabled>
+      <option value="l1">Simple décrassage</option>
+      <option value="l2" selected>Décrassage et nettoyage des pourtours</option>
+      <option value="l3">Décrassage et remplacement des joints de pourtours</option>
+    </select>
+  </div>
+  <div style="margin-top:12px">
+    <div class="checkrow"><input type="checkbox" id="cb_placard_trace_cuisine" data-item="Placard_Trace_Cuisine"/><label for="cb_placard_trace_cuisine">Façades des placards (traces de gras)</label></div>
+    <select data-level="Placard_Trace_Cuisine" style="margin-top:8px" disabled>
+      <option value="l1">3 façades et moins</option>
+      <option value="l2" selected>de 4 à 7 façades</option>
+      <option value="l3">8 façades et plus</option>
+    </select>
+  </div>
+  <div style="margin-top:12px">
+    <div class="checkrow"><input type="checkbox" id="cb_electro_cuisine" data-item="Electro_Cuisine"/><label for="cb_electro_cuisine">apparence des appareils électroménagers</label></div>
+    <select data-level="Electro_Cuisine" style="margin-top:8px" disabled>
+      <option value="l1">3 appareils et moins</option>
+      <option value="l2" selected>de 4 à 7 appareils</option>
+      <option value="l3">8 appareils et plus</option>
+    </select>
+  </div>
+</div><div class="svc" style="padding:14px; margin-top:12px">
+  <div class="checkrow packrow"><input type="checkbox" id="pack_salle_de_bain_points_d_eau" data-pack="salle_de_bain_points_d_eau"/><label for="pack_salle_de_bain_points_d_eau"><b>Pack Salle de bain &amp; points d’eau</b></label></div>
+  <div class="hint" style="margin-top:6px">Coche le pack pour sélectionner toutes les prestations de cette catégorie (tu peux ensuite décocher/ajuster le détail).</div>
+  <div style="margin-top:12px">
+    <div class="checkrow"><input type="checkbox" id="cb_joints_pe" data-item="Joints_PE"/><label for="cb_joints_pe">Reprise ou remplacement de joints noircis</label></div>
+    <select data-level="Joints_PE" style="margin-top:8px" disabled>
+      <option value="l1">Simple nettoyage</option>
+      <option value="l2" selected>Nettoyage &amp; retouches</option>
+      <option value="l3">Remplacement de tous les joints</option>
+    </select>
+    <div class="hint" style="margin-top:6px">Silicone</div>
+  </div>
+  <div style="margin-top:12px">
+    <div class="checkrow"><input type="checkbox" id="cb_carreaux_pe" data-item="Carreaux_PE"/><label for="cb_carreaux_pe">Éclaircissement des joints entre carreaux de faïence</label></div>
+    <select data-level="Carreaux_PE" style="margin-top:8px" disabled>
+      <option value="l1">moins de 3m², grands carreaux</option>
+      <option value="l2" selected>de 4 à 7 m² , carreaux moyens</option>
+      <option value="l3">8 m² et plus, tous petits carreaux ou mosaique.</option>
+    </select>
+    <div class="hint" style="margin-top:6px">Acide</div>
+  </div>
+  <div style="margin-top:12px">
+    <div class="checkrow"><input type="checkbox" id="cb_douche_pe" data-item="Douche_PE"/><label for="cb_douche_pe">Nettoyage du receveur de douche et de sa robinetterie</label></div>
+    <select data-level="Douche_PE" style="margin-top:8px" disabled>
+      <option value="l1">Simple nettoyage</option>
+      <option value="l2" selected>Nettoyage &amp; calcaire</option>
+      <option value="l3">Nettoyage, calcaire et mousseur</option>
+    </select>
+    <div class="hint" style="margin-top:6px">Vinaigre</div>
+  </div>
+  <div style="margin-top:12px">
+    <div class="checkrow"><input type="checkbox" id="cb_baignoire_pe" data-item="Baignoire_PE"/><label for="cb_baignoire_pe">Nettoyage de la baignoire et de la robinetterie</label></div>
+    <select data-level="Baignoire_PE" style="margin-top:8px" disabled>
+      <option value="l1">Simple nettoyage</option>
+      <option value="l2" selected>Nettoyage &amp; calcaire</option>
+      <option value="l3">Nettoyage, calcaire et mousseur</option>
+    </select>
+    <div class="hint" style="margin-top:6px">Vinaigre</div>
+  </div>
+  <div style="margin-top:12px">
+    <div class="checkrow"><input type="checkbox" id="cb_lavabo_pe" data-item="Lavabo_PE"/><label for="cb_lavabo_pe">Nettoyage du/des lavabo et de la robinetterie</label></div>
+    <select data-level="Lavabo_PE" style="margin-top:8px" disabled>
+      <option value="l1">Simple nettoyage</option>
+      <option value="l2" selected>Nettoyage &amp; calcaire</option>
+      <option value="l3">Nettoyage, calcaire et mousseur</option>
+    </select>
+    <div class="hint" style="margin-top:6px">Vinaigre</div>
+  </div>
+  <div style="margin-top:12px">
+    <div class="checkrow"><input type="checkbox" id="cb_siphon_pe" data-item="Siphon_PE"/><label for="cb_siphon_pe">Nettoyage des siphons</label></div>
+    <select data-level="Siphon_PE" style="margin-top:8px" disabled>
+      <option value="l1">1 ou 2 siphons</option>
+      <option value="l2" selected>3 ou 4 siphons</option>
+      <option value="l3">5 siphons et plus</option>
+    </select>
+  </div>
+</div><div class="svc" style="padding:14px; margin-top:12px">
+  <div class="checkrow packrow"><input type="checkbox" id="pack_pieces_de_vie_circulations" data-pack="pieces_de_vie_circulations"/><label for="pack_pieces_de_vie_circulations"><b>Pack Pièces de vie &amp; circulations</b></label></div>
+  <div class="hint" style="margin-top:6px">Coche le pack pour sélectionner toutes les prestations de cette catégorie (tu peux ensuite décocher/ajuster le détail).</div>
+  <div style="margin-top:12px">
+    <div class="checkrow"><input type="checkbox" id="cb_inter_prise_circ" data-item="Inter_Prise_Circ"/><label for="cb_inter_prise_circ">Interrupteurs et prises (contours inclus)</label></div>
+    <select data-level="Inter_Prise_Circ" style="margin-top:8px" disabled>
+      <option value="l1">5 interrupteurs ou moins</option>
+      <option value="l2" selected>entre 6 et 10 interrupteurs</option>
+      <option value="l3">11 interrupteurs et plus</option>
+    </select>
+    <div class="hint" style="margin-top:6px">Javel</div>
+  </div>
+  <div style="margin-top:12px">
+    <div class="checkrow"><input type="checkbox" id="cb_poignee_circ" data-item="Poignee_Circ"/><label for="cb_poignee_circ">Poignées de portes</label></div>
+    <select data-level="Poignee_Circ" style="margin-top:8px" disabled>
+      <option value="l1">6 poignés ou moins</option>
+      <option value="l2" selected>entre 6 et 10 poignés</option>
+      <option value="l3">12 poignés et plus</option>
+    </select>
+    <div class="hint" style="margin-top:6px">Javel</div>
+  </div>
+  <div style="margin-top:12px">
+    <div class="checkrow"><input type="checkbox" id="cb_trace_mur_circ" data-item="Trace_Mur_Circ"/><label for="cb_trace_mur_circ">Traces murales localisées</label></div>
+    <select data-level="Trace_Mur_Circ" style="margin-top:8px" disabled>
+      <option value="l1">Surface de 45m², peu de traces</option>
+      <option value="l2" selected>Surface entre 45 et 70 m², qqs traces</option>
+      <option value="l3">Surfaces supérieure à 75m², pas mal de traces</option>
+    </select>
+    <div class="hint" style="margin-top:6px">Javel</div>
+  </div>
+  <div style="margin-top:12px">
+    <div class="checkrow"><input type="checkbox" id="cb_plinthe_circ" data-item="Plinthe_Circ"/><label for="cb_plinthe_circ">Poussières accumulées sur les plinthes</label></div>
+    <select data-level="Plinthe_Circ" style="margin-top:8px" disabled>
+      <option value="l1">Surface de 45m², peu de traces</option>
+      <option value="l2" selected>Surface entre 45 et 70 m², qqs traces</option>
+      <option value="l3">Surfaces supérieure à 75m², pas mal de traces</option>
+    </select>
+    <div class="hint" style="margin-top:6px">Javel</div>
+  </div>
+</div><div class="svc" style="padding:14px; margin-top:12px">
+  <div class="checkrow packrow"><input type="checkbox" id="pack_placards_rangements" data-pack="placards_rangements"/><label for="pack_placards_rangements"><b>Pack Placards &amp; rangements</b></label></div>
+  <div class="hint" style="margin-top:6px">Coche le pack pour sélectionner toutes les prestations de cette catégorie (tu peux ensuite décocher/ajuster le détail).</div>
+  <div style="margin-top:12px">
+    <div class="checkrow"><input type="checkbox" id="cb_placard_pr" data-item="Placard_PR"/><label for="cb_placard_pr">Nettoyage des fonds de placards</label></div>
+    <select data-level="Placard_PR" style="margin-top:8px" disabled>
+      <option value="l1">simple aspiration, 2 ou 3 placards</option>
+      <option value="l2" selected>aspiration et nettoyage, 4 ou 5 placards</option>
+      <option value="l3">aspiration et tâches tenaces, 6 placards et plus</option>
+    </select>
+  </div>
+  <div style="margin-top:12px">
+    <div class="checkrow"><input type="checkbox" id="cb_etagere_pr" data-item="Etagere_PR"/><label for="cb_etagere_pr">Étagères et zones peu accessibles</label></div>
+    <select data-level="Etagere_PR" style="margin-top:8px" disabled>
+      <option value="l1">simple aspiration, 1 ou 2 étagéres</option>
+      <option value="l2" selected>aspiration et nettoyage, 3 ou 4 étagéres</option>
+      <option value="l3">aspiration et tâches tenaces, 5 étagéres et plus</option>
+    </select>
+  </div>
+</div><div class="svc" style="padding:14px; margin-top:12px">
+  <div class="checkrow packrow"><input type="checkbox" id="pack_finitions_petites_reparations" data-pack="finitions_petites_reparations"/><label for="pack_finitions_petites_reparations"><b>Pack Finitions &amp; petites réparations</b></label></div>
+  <div class="hint" style="margin-top:6px">Coche le pack pour sélectionner toutes les prestations de cette catégorie (tu peux ensuite décocher/ajuster le détail).</div>
+  <div style="margin-top:12px">
+    <div class="checkrow"><input type="checkbox" id="cb_plinthe_fpr" data-item="Plinthe_FPR"/><label for="cb_plinthe_fpr">Re-collage de plinthes, barre de seuil</label></div>
+    <select data-level="Plinthe_FPR" style="margin-top:8px" disabled>
+      <option value="l1">juste une seule</option>
+      <option value="l2" selected>2 ou bien 3</option>
+      <option value="l3">4 et plus</option>
+    </select>
+    <div class="hint" style="margin-top:6px">Colle néopréne</div>
+  </div>
+  <div style="margin-top:12px">
+    <div class="checkrow"><input type="checkbox" id="cb_trou_cadre_fpr" data-item="Trou_Cadre_FPR"/><label for="cb_trou_cadre_fpr">Rebouchage des trous de cadres déplacés ou retirés</label></div>
+    <select data-level="Trou_Cadre_FPR" style="margin-top:8px" disabled>
+      <option value="l1">2 ou 3 trous, simple rebouchage</option>
+      <option value="l2" selected>4 à 7 trous, rebouchage et lissage</option>
+      <option value="l3">8 trous et plus, rebouchage, lissage et peinture</option>
+    </select>
+    <div class="hint" style="margin-top:6px">Pate</div>
+  </div>
+  <div style="margin-top:12px">
+    <div class="checkrow"><input type="checkbox" id="cb_enfonc_poignee_fpr" data-item="enfonc_Poignee_FPR"/><label for="cb_enfonc_poignee_fpr">Rebouchage des enfoncements liés aux poignées de portes</label></div>
+    <select data-level="enfonc_Poignee_FPR" style="margin-top:8px" disabled>
+      <option value="l1">1 seul bosselage</option>
+      <option value="l2" selected>2 bosselages</option>
+      <option value="l3">3 bosselages</option>
+    </select>
+    <div class="hint" style="margin-top:6px">Pate</div>
+  </div>
+  <div style="margin-top:12px">
+    <div class="checkrow"><input type="checkbox" id="cb_resser_poignee_fpr" data-item="Resser_Poignee_FPR"/><label for="cb_resser_poignee_fpr">Resserage ou remplacement de poignées de portes branlantes</label></div>
+    <select data-level="Resser_Poignee_FPR" style="margin-top:8px" disabled>
+      <option value="l1">1 poignée</option>
+      <option value="l2" selected>2 poignée</option>
+      <option value="l3">3 poignée</option>
+    </select>
+  </div>
+  <div style="margin-top:12px">
+    <div class="checkrow"><input type="checkbox" id="cb_etageres_fpr" data-item="Etageres_FPR"/><label for="cb_etageres_fpr">Renforcement des fixations d&#x27;étagéres</label></div>
+    <select data-level="Etageres_FPR" style="margin-top:8px" disabled>
+      <option value="l1">Une étagére à simplement resserrer</option>
+      <option value="l2" selected>1 ou 2 étagéres, remplacement des inserts</option>
+      <option value="l3">3 étagéres, remplacement des inserts nécessitant un rebouchage</option>
+    </select>
+    <div class="hint" style="margin-top:6px">Chevilles</div>
+  </div>
+  <div style="margin-top:12px">
+    <div class="checkrow"><input type="checkbox" id="cb_peinture_fpr" data-item="Peinture__FPR"/><label for="cb_peinture_fpr">Retouches de peinture (encadrements de portes, petites zones)</label></div>
+    <select data-level="Peinture__FPR" style="margin-top:8px" disabled>
+      <option value="l1">1 seul encadrement, qqs retouches de peinture couleur standard</option>
+      <option value="l2" selected>2 encadrements, repeinte entièrement sans ponçage</option>
+      <option value="l3">3 encadrements, ponçage et repeinte compléte</option>
+    </select>
+    <div class="hint" style="margin-top:6px">Peintures</div>
+  </div>
+</div>
+
+          <div class="svc" style="padding:14px; margin-top:12px">
+            <b>Estimation</b>
+            <div class="hint" style="margin-top:8px">Taux horaire global (optionnel). Sinon, le taux par prestation est utilisé.</div>
+            <input id="hourlyRate" name="hourlyRate" placeholder="Taux horaire global (€ / h) — optionnel" inputmode="decimal" />
+            <div class="amount" id="estimateTotal" style="margin-top:10px">—</div>
+            <div class="hint" id="estimateHint">Coche au moins une prestation pour afficher une estimation.</div>
+            <div class="hint" style="margin-top:8px">Note : estimation indicative. Le devis définitif dépend de l’état réel sur place.</div>
+          </div>
+
+          <div class="pillrow" style="margin-top:12px">
+            <a class="pill" href="#contact" title="Tu peux ensuite m’envoyer ta sélection">Envoyer ma sélection</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div id="pane-visite" class="method-pane" role="tabpanel" aria-labelledby="tab-visite">
+      <div class="svc">
+        <span class="tag warn">Choix n°2 — ATTENTION Cette prestation implique une <b>facturation</b> si aucun engagement n'est conclu</span>
+        <h3 style="margin-top:10px">Devis définitif sur place</h3>
+        <p style="margin:0 0 12px; color:var(--muted)">
+          Tu laisses ton email et/ou ton téléphone. Je me déplace pour évaluer l’état réel, et je te remets un <b>devis complet et définitif</b>.
+        </p>
+
+        <div class="svc estimate-summary" style="padding:14px">
+          <b>Demande de visite</b>
+          <form id="visitForm" style="margin-top:10px">
+            <input name="contact" placeholder="Email et/ou téléphone" autocomplete="email" />
+            <input name="adresse" placeholder="Adresse (pour la visite)" autocomplete="street-address" />
+            <!-- Sélection du créneau : page de réservation Google Agenda -->
+            <div class="svc" style="padding:14px; margin:12px 0 0">
+              <b>Choisir un créneau</b>
+              <div class="hint" style="margin-top:8px">Sélectionne une <b>date</b> et une <b>heure</b> de visite avec le <b>lien</b> ci dessous.</div>
+              <a class="btn primary" id="bookingLinkBtn" href="https://calendar.app.google/RWFTGMBcLAA15LSn7" target="_blank" rel="noopener">Ouvrir l’agenda de réservation</a>
+            </div>
+
+            <div class="svc" style="padding:14px; margin-top:12px">
+              <b>Tarif visite & déplacement</b>
+              <ul class="list" style="margin-top:10px">
+                <li>Réalisation sur place du devis : <b>32 € </b> , Remboursé si un engagement à hauteur de 120€ est conclu</li>
+                <li>Déplacement : <b>gratuit jusqu’à 25 km</b>, puis <b>~1,50 €/km</b> au-delà</li>
+              </ul>
+            </div>
+          </form>
+        </div>
+
+        <div class="svc" style="padding:14px; margin-top:12px">
+          <b>Ce que tu obtiens</b>
+          <ul class="list" style="margin-top:10px">
+            <li>Diagnostic complet sur place</li>
+            <li>Chiffrage précis et définitif</li>
+            <li>Conseils de priorisation (si besoin)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <section id="contact">
+      <div class="card pad">
+        <h2>Contact</h2>
+        <p class="sub">Explique-moi ce que tu veux améliorer, et je te réponds rapidement.</p>
+
+        <div style="max-width:600px">
+          <div class="svc">
+            <h3>Coordonnées</h3>
+            <p style="margin:0; color:var(--muted)">📞 Téléphone : <b>06 18 79 18 21</b><br/>
+              ✉️ Email : <b>pierremihentic@gmail.com</b><br/>
+              📍 Zone : <b>Basé sur Embrun CP:05200</b>
+            </p>
+            <div class="pillrow" style="margin-top:14px">
+              <a class="pill" href="tel:+33618791821">Appeler</a>
+              <a class="pill" href="mailto:pierremihentic@gmail.com?subject=Demande%20de%20devis">Envoyer un email</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footergrid">
+        <div>© <span id="year"></span> Multi-services Embellissement — Tous droits réservés.</div>
+        <div style="display:flex; gap:12px; flex-wrap:wrap">
+          <a class="pill" href="#">Mentions légales</a>
+          <a class="pill" href="#">Politique de confidentialité</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Form -> mailto
+    const form = document.getElementById('devisForm');
+    if(form){
+      form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const nom = data.get('nom');
+      const tel = data.get('tel');
+      const ville = data.get('ville') || '';
+      const msg = data.get('message');
+
+      const subject = encodeURIComponent('Demande de devis – Embellissement habitation');
+      const body = encodeURIComponent(
+        `Bonjour,
+
+Je souhaite un devis.
+
+Nom : ${nom}
+Téléphone : ${tel}
+Ville : ${ville}
+
+Détails :
+${msg}
+
+Merci !`
+      );
+      window.location.href = `mailto:contact@ton-domaine.fr?subject=${subject}&body=${body}`;
+    });
+    }
+  </script>
+<script>
+  const ITEMS = {"Gaz_Cuisine": {"zone": "cuisine_nettoyage_en_profondeur", "rate": 25.0, "mat": 1.0, "mins": {"l1": 12.0, "l2": 18.0, "l3": 30.0}}, "Cuisson_Cuisine": {"zone": "cuisine_nettoyage_en_profondeur", "rate": 25.0, "mat": 1.0, "mins": {"l1": 6.0, "l2": 10.0, "l3": 15.0}}, "Hotte_Cuisine": {"zone": "cuisine_nettoyage_en_profondeur", "rate": 25.0, "mat": 0.0, "mins": {"l1": 4.0, "l2": 6.0, "l3": 8.0}}, "Crédence_Cuisine": {"zone": "cuisine_nettoyage_en_profondeur", "rate": 25.0, "mat": 0.0, "mins": {"l1": 3.0, "l2": 10.0, "l3": 25.0}}, "Placard_Trace_Cuisine": {"zone": "cuisine_nettoyage_en_profondeur", "rate": 25.0, "mat": 1.0, "mins": {"l1": 6.0, "l2": 10.0, "l3": 14.0}}, "Electro_Cuisine": {"zone": "cuisine_nettoyage_en_profondeur", "rate": 25.0, "mat": 1.0, "mins": {"l1": 6.0, "l2": 10.0, "l3": 14.0}}, "Joints_PE": {"zone": "salle_de_bain_points_d_eau", "rate": 40.0, "mat": 10.0, "mins": {"l1": 10.0, "l2": 25.0, "l3": 40.0}}, "Carreaux_PE": {"zone": "salle_de_bain_points_d_eau", "rate": 40.0, "mat": 2.0, "mins": {"l1": 20.0, "l2": 30.0, "l3": 40.0}}, "Douche_PE": {"zone": "salle_de_bain_points_d_eau", "rate": 25.0, "mat": 1.0, "mins": {"l1": 5.0, "l2": 10.0, "l3": 15.0}}, "Baignoire_PE": {"zone": "salle_de_bain_points_d_eau", "rate": 25.0, "mat": 1.0, "mins": {"l1": 5.0, "l2": 10.0, "l3": 15.0}}, "Lavabo_PE": {"zone": "salle_de_bain_points_d_eau", "rate": 25.0, "mat": 1.0, "mins": {"l1": 5.0, "l2": 10.0, "l3": 15.0}}, "Siphon_PE": {"zone": "salle_de_bain_points_d_eau", "rate": 32.0, "mat": 0.0, "mins": {"l1": 3.0, "l2": 6.0, "l3": 9.0}}, "Inter_Prise_Circ": {"zone": "pieces_de_vie_circulations", "rate": 32.0, "mat": 1.0, "mins": {"l1": 15.0, "l2": 30.0, "l3": 40.0}}, "Poignee_Circ": {"zone": "pieces_de_vie_circulations", "rate": 32.0, "mat": 1.0, "mins": {"l1": 15.0, "l2": 30.0, "l3": 40.0}}, "Trace_Mur_Circ": {"zone": "pieces_de_vie_circulations", "rate": 32.0, "mat": 1.0, "mins": {"l1": 10.0, "l2": 20.0, "l3": 30.0}}, "Plinthe_Circ": {"zone": "pieces_de_vie_circulations", "rate": 32.0, "mat": 1.0, "mins": {"l1": 10.0, "l2": 20.0, "l3": 30.0}}, "Placard_PR": {"zone": "placards_rangements", "rate": 25.0, "mat": 2.0, "mins": {"l1": 10.0, "l2": 20.0, "l3": 30.0}}, "Etagere_PR": {"zone": "placards_rangements", "rate": 25.0, "mat": 2.0, "mins": {"l1": 10.0, "l2": 15.0, "l3": 20.0}}, "Plinthe_FPR": {"zone": "finitions_petites_reparations", "rate": 45.0, "mat": 5.0, "mins": {"l1": 10.0, "l2": 20.0, "l3": 30.0}}, "Trou_Cadre_FPR": {"zone": "finitions_petites_reparations", "rate": 45.0, "mat": 5.0, "mins": {"l1": 10.0, "l2": 30.0, "l3": 60.0}}, "enfonc_Poignee_FPR": {"zone": "finitions_petites_reparations", "rate": 45.0, "mat": 5.0, "mins": {"l1": 10.0, "l2": 20.0, "l3": 30.0}}, "Resser_Poignee_FPR": {"zone": "finitions_petites_reparations", "rate": 45.0, "mat": 0.0, "mins": {"l1": 5.0, "l2": 10.0, "l3": 15.0}}, "Etageres_FPR": {"zone": "finitions_petites_reparations", "rate": 45.0, "mat": 4.0, "mins": {"l1": 5.0, "l2": 15.0, "l3": 30.0}}, "Peinture__FPR": {"zone": "finitions_petites_reparations", "rate": 45.0, "mat": 10.0, "mins": {"l1": 20.0, "l2": 30.0, "l3": 50.0}}};
+  const ZONES = {"cuisine_nettoyage_en_profondeur": "Cuisine – Nettoyage en profondeur", "salle_de_bain_points_d_eau": "Salle de bain & points d’eau", "pieces_de_vie_circulations": "Pièces de vie & circulations", "placards_rangements": "Placards & rangements", "finitions_petites_reparations": "Finitions & petites réparations"};
+
+  // Onglets "Ma méthode"
+  (function(){
+    const tab1 = document.getElementById('tab-estimation');
+    const tab2 = document.getElementById('tab-visite');
+    const p1 = document.getElementById('pane-estimation');
+    const p2 = document.getElementById('pane-visite');
+    if(!tab1 || !tab2 || !p1 || !p2) return;
+
+    function activate(which){
+      const is1 = which === 1;
+      tab1.setAttribute('aria-selected', String(is1));
+      tab2.setAttribute('aria-selected', String(!is1));
+      p1.classList.toggle('active', is1);
+      p2.classList.toggle('active', !is1);
+    }
+    tab1.addEventListener('click', () => activate(1));
+    tab2.addEventListener('click', () => activate(2));
+  })();
+
+
+  function formatEUR(n){
+    try { return new Intl.NumberFormat('fr-FR', { style:'currency', currency:'EUR' }).format(n); }
+    catch(_e){ return (Math.round(n*100)/100).toFixed(2)+' €'; }
+  }
+  function toNumber(v){
+    const n = Number(String(v ?? '').replace(',', '.'));
+    return Number.isFinite(n) ? n : null;
+  }
+  function getGlobalRate(){
+    const el = document.getElementById('hourlyRate');
+    if(!el) return null;
+    const n = toNumber(el.value);
+    return (n === null || n <= 0) ? null : n;
+  }
+
+  function updatePackState(zoneKey){
+    const pack = document.querySelector(`input[type="checkbox"][data-pack="${zoneKey}"]`);
+    if(!pack) return;
+    const cbs = Array.from(document.querySelectorAll('input[type="checkbox"][data-item]'))
+      .filter(cb => (ITEMS[cb.dataset.item]?.zone) === zoneKey);
+
+    const checkedCount = cbs.filter(cb => cb.checked).length;
+    if(checkedCount === 0){
+      pack.checked = false;
+      pack.indeterminate = false;
+    } else if(checkedCount === cbs.length){
+      pack.checked = true;
+      pack.indeterminate = false;
+    } else {
+      pack.checked = false;
+      pack.indeterminate = true;
+    }
+  }
+
+  function setZoneChecked(zoneKey, checked){
+    const cbs = Array.from(document.querySelectorAll(`input[type="checkbox"][data-item]`))
+      .filter(cb => (ITEMS[cb.dataset.item]?.zone) === zoneKey);
+
+    for(const cb of cbs){
+      cb.checked = checked;
+      const sel = document.querySelector(`select[data-level="${cb.dataset.item}"]`);
+      if(sel) sel.disabled = !cb.checked;
+    }
+    updatePackState(zoneKey);
+  }
+
+  function updateEstimate(){
+    const out = document.getElementById('estimateTotal');
+    const hint = document.getElementById('estimateHint');
+    if(!out || !hint) return;
+
+    const globalRate = getGlobalRate();
+
+    let totalMinutes = 0;
+    let labour = 0;
+    let materials = 0;
+    let any = false;
+
+    const cbs = Array.from(document.querySelectorAll('input[type="checkbox"][data-item]'));
+    for(const cb of cbs){
+      const code = cb.dataset.item;
+      const item = ITEMS[code];
+      const sel = document.querySelector(`select[data-level="${code}"]`);
+      if(sel) sel.disabled = !cb.checked;
+
+      if(!cb.checked || !item) continue;
+      any = true;
+
+      const lvl = (sel && sel.value) ? sel.value : 'l2';
+      const mins = Number(item.mins?.[lvl] ?? 0) || 0;
+      const rate = (globalRate ?? (Number(item.rate) || 0));
+      const mat = Number(item.mat) || 0;
+
+      totalMinutes += mins;
+      labour += (mins/60) * rate;
+      materials += mat;
+    }
+
+    if(!any){
+      out.textContent = '—';
+      hint.textContent = 'Coche au moins une prestation pour afficher une estimation.';
+      Object.keys(ZONES).forEach(updatePackState);
+      return;
+    }
+
+    const total = labour + materials;
+    out.textContent = formatEUR(total);
+    hint.textContent = `Temps estimé : ${(totalMinutes/60).toFixed(2)} h • Main d’œuvre : ${formatEUR(labour)} • Matières : ${formatEUR(materials)}${globalRate ? ' • Taux global : '+formatEUR(globalRate)+'/h' : ''}`;
+    Object.keys(ZONES).forEach(updatePackState);
+  }
+
+  function initPacksAndEstimate(){
+    const packs = Array.from(document.querySelectorAll('input[type="checkbox"][data-pack]'));
+    for(const pack of packs){
+      pack.addEventListener('change', () => {
+        const zoneKey = pack.dataset.pack;
+        setZoneChecked(zoneKey, pack.checked);
+        updateEstimate();
+      });
+      updatePackState(pack.dataset.pack);
+    }
+
+    const itemCbs = Array.from(document.querySelectorAll('input[type="checkbox"][data-item]'));
+    for(const cb of itemCbs){
+      cb.addEventListener('change', () => {
+        const zoneKey = ITEMS[cb.dataset.item]?.zone;
+        if(zoneKey) updatePackState(zoneKey);
+        updateEstimate();
+      });
+    }
+
+    const selects = Array.from(document.querySelectorAll('select[data-level]'));
+    for(const s of selects){
+      s.addEventListener('change', updateEstimate);
+    }
+
+    const rate = document.getElementById('hourlyRate');
+    if(rate) rate.addEventListener('input', updateEstimate);
+
+    updateEstimate();
+  }
+
+  const visitForm = document.getElementById('visitForm');
+  if(visitForm){
+    visitForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = new FormData(visitForm);
+      const contact = data.get('contact') || '';
+      const adresse = data.get('adresse') || '';
+
+      const subject2 = encodeURIComponent('Demande de devis sur place (visite)');
+      const body2 = encodeURIComponent(
+        `Bonjour,
+
+Je souhaite un devis définitif sur place (visite).
+
+Contact : ${contact}
+Adresse : ${adresse}
+
+Merci !`
+      );
+      window.location.href = `mailto:contact@ton-domaine.fr?subject=${subject2}&body=${body2}`;
+    });
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', initPacksAndEstimate);
+  } else {
+    initPacksAndEstimate();
+  }
+</script>
+</body>
+</html>
