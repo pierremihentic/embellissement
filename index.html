@@ -210,7 +210,6 @@
         <a href="#methode">Méthode</a>
         <a href="#contact">Contact</a>
       </nav>
-      <a class="cta" href="#methode">Demander un devis</a>
     </div>
   </header>
 
@@ -220,9 +219,9 @@
         <div class="card pad">
           <h1>Embellir ton habitation, <br/>sans gros travaux.</h1>
           <p class="lead">
-            J’interviens pour un <b>nettoyage en profondeur</b> et des <b>petites finitions</b> qui changent tout :
-            interrupteurs, joints noircis, plinthes décollées, fonds de placards, encadrements de portes…
-            Résultat : un intérieur plus propre, plus net, plus agréable.
+            Nous intervenons pour un <b>nettoyage en profondeur</b> et des <b>petites finitions / réparations</b> qui changent tout :
+            interrupteurs défectueux, joints noircis, plinthes salies, décollées ou manquantes, fonds et façades de placards, encadrements de portes…
+            <b>Résultat</b> : un intérieur redevenu propre et fonctionnel, dans lequel on se sent mieux vivre.
           </p>
           <div class="actions">
             <a class="btn primary" href="#methode">Obtenir un devis rapide</a>
@@ -253,7 +252,7 @@
 
     <section id="services">
       <div class="card pad">
-        <h2>Prestations d’embellissement</h2>
+        <h2>Détail des prestations d’embellissement</h2>
         <p class="sub">Une sélection de <b>prestations</b> exécutés par une seule et même <b>équipe</b> qui font une <b>grande différence.</b></p>
 
         <div class="svcgrid">
@@ -600,7 +599,10 @@
           </div>
 
           <div class="pillrow" style="margin-top:12px">
-            <a class="pill" href="#contact" title="Tu peux ensuite m’envoyer ta sélection">Envoyer ma sélection</a>
+            <button type="button" class="pill" id="sendSelectionBtn" title="Ouvre un email pré-rempli avec ta sélection">
+              Envoyer ma sélection
+            </button>
+
           </div>
         </form>
       </div>
@@ -611,14 +613,12 @@
         <span class="tag warn">Choix n°2 — ATTENTION Cette prestation implique une <b>facturation</b> si aucun engagement n'est conclu</span>
         <h3 style="margin-top:10px">Devis définitif sur place</h3>
         <p style="margin:0 0 12px; color:var(--muted)">
-          Tu laisses ton email et/ou ton téléphone. Je me déplace pour évaluer l’état réel, et je te remets un <b>devis complet et définitif</b>.
+          Tu choisis une date disponible, tu laisses ton email, ton téléphone et l'adresse d'intervention. Nous confirmons le RDV. A la date choisie, on se rend sur place pour évaluer l’état réel, et on te remet un <b>devis complet et définitif</b>.
         </p>
 
         <div class="svc estimate-summary" style="padding:14px">
           <b>Demande de visite</b>
           <form id="visitForm" style="margin-top:10px">
-            <input name="contact" placeholder="Email et/ou téléphone" autocomplete="email" />
-            <input name="adresse" placeholder="Adresse (pour la visite)" autocomplete="street-address" />
             <!-- Sélection du créneau : page de réservation Google Agenda -->
             <div class="svc" style="padding:14px; margin:12px 0 0">
               <b>Choisir un créneau</b>
@@ -889,6 +889,94 @@ Merci !`
   } else {
     initPacksAndEstimate();
   }
+  // --- Envoi sélection (Choix n°1) via mailto ---
+(function () {
+  const btn = document.getElementById('sendSelectionBtn');
+  if (!btn) return;
+
+  function getDestEmail() {
+    // Prend le premier mailto trouvé sur la page (ex: dans Coordonnées)
+    const a = document.querySelector('a[href^="mailto:"]');
+    if (!a) return 'contact@ton-domaine.fr';
+    const href = a.getAttribute('href') || '';
+    return href.replace('mailto:', '').split('?')[0] || 'contact@ton-domaine.fr';
+  }
+
+  function buildSelectionEmailBody() {
+    const checked = Array.from(document.querySelectorAll('input[type="checkbox"][data-item]:checked'));
+    if (checked.length === 0) return null;
+
+    // Regroupe par zone
+    const byZone = new Map();
+
+    let totalMinutes = 0;
+    let labour = 0;
+    let materials = 0;
+
+    for (const cb of checked) {
+      const code = cb.dataset.item;
+      const item = (typeof ITEMS !== 'undefined') ? ITEMS[code] : null;
+      if (!item) continue;
+
+      const zoneKey = item.zone || 'autre';
+      const zoneName = (typeof ZONES !== 'undefined' && ZONES[zoneKey]) ? ZONES[zoneKey] : zoneKey;
+
+      const labelEl = document.querySelector(`label[for="${cb.id}"]`);
+      const label = (labelEl?.textContent || code).trim();
+
+      const sel = document.querySelector(`select[data-level="${code}"]`);
+      const lvl = sel ? sel.value : 'l1';
+      const lvlText = sel
+        ? (sel.options[sel.selectedIndex]?.textContent || lvl).trim()
+        : lvl;
+
+      const mins = (item.mins && typeof item.mins[lvl] === 'number') ? item.mins[lvl] : 0;
+      const rate = (typeof item.rate === 'number') ? item.rate : 0;
+      const mat = (typeof item.mat === 'number') ? item.mat : 0;
+
+      totalMinutes += mins;
+      labour += (mins / 60) * rate;
+      materials += mat;
+
+      if (!byZone.has(zoneName)) byZone.set(zoneName, []);
+      byZone.get(zoneName).push(`- ${label} — ${lvlText} (≈ ${mins} min)`);
+    }
+
+    const total = labour + materials;
+    const hours = totalMinutes / 60;
+
+    let body = '';
+    body += 'Bonjour,\n\n';
+    body += 'Voici ma sélection pour un devis instantané :\n\n';
+
+    for (const [zoneName, lines] of byZone.entries()) {
+      body += `${zoneName}\n`;
+      body += lines.join('\n') + '\n\n';
+    }
+
+    body += `Temps estimé : ${hours.toFixed(2)} h\n`;
+    body += `Main d’œuvre estimée : ${formatEUR(labour)}\n`;
+    body += `Matières estimées : ${formatEUR(materials)}\n`;
+    body += `Estimation totale : ${formatEUR(total)}\n\n`;
+    body += 'Merci de me recontacter pour confirmer le devis et planifier l’intervention.\n';
+
+    return body;
+  }
+
+  btn.addEventListener('click', () => {
+    const body = buildSelectionEmailBody();
+    if (!body) {
+      alert('Aucune prestation sélectionnée. Coche au moins une prestation avant d’envoyer.');
+      return;
+    }
+
+    const dest = getDestEmail();
+    const subject = encodeURIComponent('Devis instantané – Ma sélection');
+    const encodedBody = encodeURIComponent(body);
+
+    window.location.href = `mailto:${dest}?subject=${subject}&body=${encodedBody}`;
+  });
+})();
 </script>
 </body>
 </html>
