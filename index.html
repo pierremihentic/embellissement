@@ -890,7 +890,8 @@ Merci !`
     initPacksAndEstimate();
   }
   // --- Envoi sélection (Choix n°1) via mailto ---
-(function () {
+// Version robuste : attend le DOM, protège contre erreurs, et affiche un fallback si mailto n'est pas configuré.
+document.addEventListener('DOMContentLoaded', () => {
   const btn = document.getElementById('sendSelectionBtn');
   if (!btn) return;
 
@@ -924,15 +925,23 @@ Merci !`
       const labelEl = document.querySelector(`label[for="${cb.id}"]`);
       const label = (labelEl?.textContent || code).trim();
 
-      const sel = document.querySelector(`select[data-level="${code}"]`);
+      // Sélecteur niveau (protégé si le code contient des caractères spéciaux)
+      let sel = null;
+      try {
+        const safe = (window.CSS && CSS.escape) ? CSS.escape(code) : code;
+        sel = document.querySelector(`select[data-level="${safe}"]`);
+      } catch (_) {
+        sel = document.querySelector(`select[data-level="${code}"]`);
+      }
+
       const lvl = sel ? sel.value : 'l1';
       const lvlText = sel
         ? (sel.options[sel.selectedIndex]?.textContent || lvl).trim()
         : lvl;
 
-      const mins = (item.mins && typeof item.mins[lvl] === 'number') ? item.mins[lvl] : 0;
-      const rate = (typeof item.rate === 'number') ? item.rate : 0;
-      const mat = (typeof item.mat === 'number') ? item.mat : 0;
+      const mins = Number(item.mins?.[lvl] ?? 0) || 0;
+      const rate = Number(item.rate ?? 0) || 0;
+      const mat = Number(item.mat ?? 0) || 0;
 
       totalMinutes += mins;
       labour += (mins / 60) * rate;
@@ -950,8 +959,7 @@ Merci !`
     body += 'Voici ma sélection pour un devis instantané :\n\n';
 
     for (const [zoneName, lines] of byZone.entries()) {
-      body += `${zoneName}\n`;
-      body += lines.join('\n') + '\n\n';
+      body += `${zoneName}\n${lines.join('\n')}\n\n`;
     }
 
     body += `Temps estimé : ${hours.toFixed(2)} h\n`;
@@ -963,20 +971,39 @@ Merci !`
     return body;
   }
 
-  btn.addEventListener('click', () => {
-    const body = buildSelectionEmailBody();
-    if (!body) {
-      alert('Aucune prestation sélectionnée. Coche au moins une prestation avant d’envoyer.');
-      return;
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    try {
+      const body = buildSelectionEmailBody();
+      if (!body) {
+        alert('Aucune prestation sélectionnée. Coche au moins une prestation avant d’envoyer.');
+        return;
+      }
+
+      const dest = getDestEmail();
+      const subject = encodeURIComponent('Devis instantané – Ma sélection');
+      const encodedBody = encodeURIComponent(body);
+      const mailto = `mailto:${dest}?subject=${subject}&body=${encodedBody}`;
+
+      // Tentative d'ouverture mailto
+      window.location.href = mailto;
+
+      // Fallback si rien ne se passe (pas de gestionnaire mailto)
+      setTimeout(() => {
+        // Si l'utilisateur a un client mail, il aura déjà basculé. Sinon on l'aide.
+        alert(
+          "Si rien ne s’est ouvert, ton appareil n’a probablement pas d’application email configurée pour les liens mailto.\n\n" +
+          "Copie/colle le texte ci-dessous dans un email :\n\n" + body
+        );
+      }, 700);
+    } catch (err) {
+      console.error(err);
+      alert("Oups : une erreur a empêché l’envoi. Ouvre la console (F12) et copie-moi l’erreur si besoin.");
     }
-
-    const dest = getDestEmail();
-    const subject = encodeURIComponent('Devis instantané – Ma sélection');
-    const encodedBody = encodeURIComponent(body);
-
-    window.location.href = `mailto:${dest}?subject=${subject}&body=${encodedBody}`;
   });
-})();
+});
+;
 </script>
 </body>
 </html>
